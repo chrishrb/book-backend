@@ -1,0 +1,73 @@
+######################## IMPORTANT ####################################
+# Only for local development! Use terraform for deployment to AWS
+#######################################################################
+
+Globals:
+  Function:
+    Timeout: 5
+    Runtime: provided.al2
+    Handler: bootstrap
+    Environment:
+      Variables:
+        POSTGRES_HOST: host.docker.internal
+        POSTGRES_PORT: 5432
+        POSTGRES_USERNAME: postgres
+        POSTGRES_PASSWORD: postgres
+        POSTGRES_DB: postgres
+        SSL_MODE: "disable"
+
+Resources:
+  Create:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: ./bin/create
+      Events:
+        HttpPost:
+          Type: Api
+          Properties:
+            Path: '/books'
+            Method: POST
+
+  FindAll:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: ./bin/findAll
+      Events:
+        HttpPost:
+          Type: Api
+          Properties:
+            Path: '/books'
+            Method: GET
+
+  FindById:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: ./bin/findById
+      Events:
+        HttpPost:
+          Type: Api
+          Properties:
+            Path: '/books/{id}'
+            Method: GET
+
+  Update:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: ./bin/update
+      Events:
+        HttpPost:
+          Type: Api
+          Properties:
+            Path: '/books/{id}'
+            Method: PUT
+
+  Delete:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: ./bin/delete
+      Events:
+        HttpPost:
+          Type: Api
+          Properties:
+            Path: '/books/{id}'
+            Method: DELETE

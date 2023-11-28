@@ -1,4 +1,6 @@
-# Lambda
+# book-backend
+
+Backend lambdas for the bachelor thesis book application.
 
 ## Local development
 
